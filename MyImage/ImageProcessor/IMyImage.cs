@@ -8,10 +8,11 @@ namespace MyImage.ImageProcessor
 {
     interface IMyImage
     {
-        void display();
+        Image display(string url);
 
-        Image RotationByAngle(int angle);
+        Image AngleRotation(string url, int angle);
 
-        string Rotation();
+        Image Rotation(string url);
+
     }
 }
