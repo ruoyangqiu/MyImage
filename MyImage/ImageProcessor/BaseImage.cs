@@ -7,5 +7,6 @@ namespace MyImage.ImageProcessor
 {
     public class BaseImage
     {
+        string ImageURI { get; set; }
     }
 }
