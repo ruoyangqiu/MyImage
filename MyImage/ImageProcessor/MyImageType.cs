@@ -13,7 +13,10 @@ namespace MyImage.ImageProcessor
     public class MyImageType : IMyImage
     {
         [JsonIgnore]
-        private Image OriginalImage { get; set; }
+        //private static Image OriginalImage;
+        private static int OriginalWidth;
+        private static int OriginalHeight;
+        //private static Bitmap OriginalBitmap;
 
         //public MyImageType(string imageuri)
         //{
@@ -22,16 +25,19 @@ namespace MyImage.ImageProcessor
         //}
         public Image display(string url)
         {
-            return convertImageFromWebUri(url);
+            Image img = convertImageFromWebUri(url);
+            OriginalWidth = img.Width;
+            OriginalHeight = img.Height;
+            return img;
         }
 
         
 
-        public Image AngleRotation(string url, int angle)
+        public Image AngleRotation(Image img, int angle)
         {
-            Bitmap bmp = new Bitmap(convertImageFromWebUri(url));
-            Image rotate = (Image)rotateImage(bmp, (float)angle);
-            return rotate;
+            Bitmap bmp = new Bitmap(img);
+            img = (Image)RotateImage(bmp, (float)angle);
+            return img;
         }
 
         public string Rotation()
@@ -74,22 +80,40 @@ namespace MyImage.ImageProcessor
             return img;
         }
 
-        private Bitmap rotateImage(Bitmap bmp, float angle)
+        private static Bitmap RotateImage(Bitmap bmp, float angle)
         {
-            float height = bmp.Height;
-            float width = bmp.Width;
-            int hypotenuse = System.Convert.ToInt32(System.Math.Floor(Math.Sqrt(height * height + width * width)));
-            Bitmap rotatedImage = new Bitmap(hypotenuse, hypotenuse);
+            float alpha = 45;
+
+            //edit: negative angle +360
+            while (alpha < 0) alpha += 360;
+
+            float gamma = 90;
+            float beta = 180 - 45 - gamma;
+
+            float c1 = OriginalHeight;
+            float a1 = (float)(c1 * Math.Sin(alpha * Math.PI / 180) / Math.Sin(gamma * Math.PI / 180));
+            float b1 = (float)(c1 * Math.Sin(beta * Math.PI / 180) / Math.Sin(gamma * Math.PI / 180));
+
+            float c2 = OriginalWidth;
+            float a2 = (float)(c2 * Math.Sin(alpha * Math.PI / 180) / Math.Sin(gamma * Math.PI / 180));
+            float b2 = (float)(c2 * Math.Sin(beta * Math.PI / 180) / Math.Sin(gamma * Math.PI / 180));
+
+            float c3 = (float)Math.Sqrt(Math.Pow(OriginalHeight, 2) + Math.Pow(OriginalWidth, 2));
+
+            int width = Convert.ToInt32(c3);
+            int height = Convert.ToInt32(c3);
+
+            Bitmap rotatedImage = new Bitmap(width, height);
             using (Graphics g = Graphics.FromImage(rotatedImage))
             {
-                g.TranslateTransform((float)rotatedImage.Width / 2, (float)rotatedImage.Height / 2); //set the rotation point as the center into the matrix
+                g.TranslateTransform(rotatedImage.Width / 2, rotatedImage.Height / 2); //set the rotation point as the center into the matrix
                 g.RotateTransform(angle); //rotate
-                g.TranslateTransform(-(float)rotatedImage.Width / 2, -(float)rotatedImage.Height / 2); //restore rotation point into the matrix
-                g.DrawImage(bmp, (hypotenuse - width) / 2, (hypotenuse - height) / 2, width, height);
+                g.TranslateTransform(-rotatedImage.Width / 2, -rotatedImage.Height / 2); //restore rotation point into the matrix
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.DrawImage(bmp, new Point((width - bmp.Width) / 2, (height - bmp.Height) / 2)); //draw the image on the new bitmap
             }
             return rotatedImage;
         }
-
 
     }
 }

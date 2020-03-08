@@ -10,7 +10,7 @@ namespace MyImage.ImageProcessor
     {
         Image display(string url);
 
-        Image AngleRotation(string url, int angle);
+        Image AngleRotation(Image img, int angle);
 
         Image Rotation(string url);
 

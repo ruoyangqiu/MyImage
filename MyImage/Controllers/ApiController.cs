@@ -45,7 +45,7 @@ namespace MyImage.Controllers
             _image = _myimage.display(_imageserver.datastore.url);
             //im.add(_imageurl);
             Console.WriteLine(_imageserver.datastore.url);
-            return File(ImageToByteArray(_image), "image/png");
+            return File(ImageToByteArray(), "image/jpg");
         }
 
         [HttpGet("anglerotation")]
@@ -55,9 +55,9 @@ namespace MyImage.Controllers
             
             //string url = img.RotationByAngle(70);
             //var image = System.IO.File.OpenRead(url);
-            Image img = _myimage.AngleRotation(_imageserver.datastore.url, angle);
+            _image = _myimage.AngleRotation(_image, angle);
             Byte[] b;
-            b = ImageToByteArray(img);
+            b = ImageToByteArray();
             return File(b, "image/png");
         }
         [HttpGet("flipping")]
@@ -68,13 +68,13 @@ namespace MyImage.Controllers
                 return BadRequest();
             }
             _image = _myimage.Fliping(_image, orientation);
-            return File(ImageToByteArray(_image), "image/png");
+            return File(ImageToByteArray(), "image/png");
         }
 
-        private byte[] ImageToByteArray(System.Drawing.Image imageIn)
+        private byte[] ImageToByteArray()
         {
             MemoryStream ms2 = new MemoryStream();
-            imageIn.Save(ms2, System.Drawing.Imaging.ImageFormat.Png);
+            _image.Save(ms2, System.Drawing.Imaging.ImageFormat.Png);
             return ms2.ToArray();
         }
     }
