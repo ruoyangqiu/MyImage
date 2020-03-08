@@ -43,7 +43,10 @@ namespace MyImage.Controllers
         [ProducesResponseType(typeof(InvalidUriError), 400)]
         public ActionResult Create(string url)
         {
-
+            if(string.IsNullOrEmpty(url))
+            {
+                return StatusCode(400, new InvalidUriError());
+            }
             bool validurl = _imageserver.InitializeImage(url);
             if(!validurl)
             {
@@ -57,12 +60,15 @@ namespace MyImage.Controllers
         {
             return File(_imageserver.GetRotationByAngle(angle), "image/jpeg");
         }
+
         [HttpGet("flipping")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(InvalidUriError), 400)]
         public ActionResult Filp(string orientation)
         {
             if(!orientation.Equals("horizontal", StringComparison.InvariantCultureIgnoreCase) && !orientation.Equals("vertical", StringComparison.InvariantCultureIgnoreCase))
             {
-                return BadRequest();
+                return StatusCode(400, new InvalidOrientationError());
             }
             //_image = _myimage.Fliping(_image, orientation);
             return File(_imageserver.GetFlipping(orientation), "image/jpeg");
