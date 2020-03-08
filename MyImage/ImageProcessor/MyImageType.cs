@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.Drawing.Drawing2D;
 using System.Net;
 using System.IO;
+using System.Drawing.Imaging;
 
 namespace MyImage.ImageProcessor
 {
@@ -138,7 +139,25 @@ namespace MyImage.ImageProcessor
 
         private Image MakeResize(Image img, int newwidth, int newheight)
         {
-            return img;
+            var box = new Rectangle(0, 0, newwidth, newheight);
+            Bitmap bmp = new Bitmap(newwidth, newheight);
+            bmp.SetResolution(img.HorizontalResolution, img.VerticalResolution);
+
+            using(Graphics g = Graphics.FromImage(bmp))
+            {
+                g.CompositingMode = CompositingMode.SourceCopy;
+                g.CompositingQuality = CompositingQuality.HighQuality;
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.SmoothingMode = SmoothingMode.HighQuality;
+                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using(var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    g.DrawImage(img, box, 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+            return (Image)bmp;
         }
     }
 }
