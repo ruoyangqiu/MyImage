@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using MyImage.Data;
 using MyImage.ImageProcessor;
 using MyImage.Service;
+using static MyImage.Data.ErrorMessages;
 
 namespace MyImage.Controllers
 {
@@ -39,14 +40,14 @@ namespace MyImage.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
+        [ProducesResponseType(typeof(InvalidUriError), 400)]
         public ActionResult Create(string url)
         {
 
             bool validurl = _imageserver.InitializeImage(url);
             if(!validurl)
             {
-                return BadRequest();
+                return StatusCode(400, new InvalidUriError());
             }
             return File(_imageserver.GetDisplay(), "image/jpeg");
         }
