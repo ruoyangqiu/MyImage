@@ -23,7 +23,7 @@ namespace MyImage.Controllers
         //private List<string> _imagelist = new List<string>();
         //private string _imageurl = "";
         //private ImageMock im = ImageMock.Instance;
-        private MyImageServer _imageserver = new MyImageServer();
+        private MyImageServer _imageserver = MyImageServer.Instance;
         //private MemoryStream _imagestream;
         private static Image _image;
         //private Image _image;
@@ -40,25 +40,14 @@ namespace MyImage.Controllers
         [HttpPost]
         public ActionResult Create(string url)
         {
-
-            _imageserver.datastore.add(url);
-            _image = _myimage.display(_imageserver.datastore.url);
-            //im.add(_imageurl);
-            Console.WriteLine(_imageserver.datastore.url);
-            return File(ImageToByteArray(), "image/jpg");
+            _imageserver.InitializeImage(url);
+            return File(_imageserver.GetDisplay(), "image/jpeg");
         }
 
         [HttpGet("anglerotation")]
         public ActionResult RotateByAngle(int angle)
         {
-            //PictureBox pictureBox1 = new PictureBox();
-            
-            //string url = img.RotationByAngle(70);
-            //var image = System.IO.File.OpenRead(url);
-            _image = _myimage.AngleRotation(_image, angle);
-            Byte[] b;
-            b = ImageToByteArray();
-            return File(b, "image/png");
+            return File(_imageserver.GetRotationByAngle(angle), "image/jpeg");
         }
         [HttpGet("flipping")]
         public ActionResult Filp(string orientation)
@@ -67,29 +56,22 @@ namespace MyImage.Controllers
             {
                 return BadRequest();
             }
-            _image = _myimage.Fliping(_image, orientation);
-            return File(ImageToByteArray(), "image/png");
+            //_image = _myimage.Fliping(_image, orientation);
+            return File(_imageserver.GetFlipping(orientation), "image/jpeg");
         }
 
         [HttpGet("grayscale")]
         public ActionResult Greyscale()
         {
-            _image = _myimage.GrayScale(_image);
-            return File(ImageToByteArray(), "image/jpeg");
+            //_image = _myimage.GrayScale(_image);
+            return File(_imageserver.GetGrayScale(), "image/jpeg");
         }
 
         [HttpGet("resizing")]
-        public ActionResult Resize(int weight, int height)
+        public ActionResult Resize(int width, int height)
         {
-            _image = _myimage.Resize(_image, weight, height);
-            return File(ImageToByteArray(), "image/jpeg");
-        }
-
-        private byte[] ImageToByteArray()
-        {
-            MemoryStream ms2 = new MemoryStream();
-            _image.Save(ms2, System.Drawing.Imaging.ImageFormat.Png);
-            return ms2.ToArray();
+            //_image = _myimage.Resize(_image, weight, height);
+            return File(_imageserver.GetResize(width, height), "image/jpeg");
         }
     }
 }
