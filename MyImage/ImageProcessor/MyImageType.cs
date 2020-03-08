@@ -50,6 +50,20 @@ namespace MyImage.ImageProcessor
             throw new NotImplementedException();
         }
 
+        public Image Fliping(string url, int oriantion)
+        {
+            Image flip = convertImageFromWebUri(url);
+            if(oriantion == 1)
+            {
+                flip.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            }
+            if(oriantion == 0)
+            {
+                flip.RotateFlip(RotateFlipType.RotateNoneFlipX);
+            }
+            return flip;
+        }
+
         private Image convertImageFromWebUri (string url)
         {
             WebClient wc = new WebClient();
@@ -75,5 +89,7 @@ namespace MyImage.ImageProcessor
             }
             return rotatedImage;
         }
+
+
     }
 }

@@ -7,7 +7,9 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MyImage.Data;
 using MyImage.ImageProcessor;
+using MyImage.Service;
 
 namespace MyImage.Controllers
 {
@@ -15,26 +17,22 @@ namespace MyImage.Controllers
     [Route("[controller]")]
     public class ApiController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+        
 
         private IMyImage _myimage = new MyImageType();
-        private string _imageurl;
+        //private List<string> _imagelist = new List<string>();
+        //private string _imageurl = "";
+        //private ImageMock im = ImageMock.Instance;
+        private MyImageServer _imageserver = new MyImageServer();
+        //private MemoryStream _imagestream;
 
-        private MemoryStream _imagestream;
-
-        private Image _image;
+        //private Image _image;
 
         private readonly ILogger<ApiController> _logger;
 
         public ApiController(ILogger<ApiController> logger)
         {
             _logger = logger;
-            _imageurl = "";
-            _imagestream = new MemoryStream();
-//_image = new Bitmap("");
         }
 
         
@@ -42,23 +40,35 @@ namespace MyImage.Controllers
         [HttpPost]
         public ActionResult Create(string url)
         {
-            _imageurl = url;
 
-            Image img = _myimage.display(_imageurl);
+            _imageserver.datastore.add(url);
+            Image img = _myimage.display(_imageserver.datastore.url);
+            //im.add(_imageurl);
+            Console.WriteLine(_imageserver.datastore.url);
             return File(ImageToByteArray(img), "image/png");
         }
 
         [HttpGet("anglerotation")]
-        public ActionResult RotateByAngle(string url, int angle)
+        public ActionResult RotateByAngle(int angle)
         {
             //PictureBox pictureBox1 = new PictureBox();
             
             //string url = img.RotationByAngle(70);
             //var image = System.IO.File.OpenRead(url);
-            Image img = _myimage.AngleRotation(url, angle);
+            Image img = _myimage.AngleRotation(_imageserver.datastore.url, angle);
             Byte[] b;
             b = ImageToByteArray(img);
             return File(b, "image/png");
+        }
+        [HttpGet("flipping")]
+        public ActionResult Filp(int orientation)
+        {
+            if(orientation != 0 && orientation != 1)
+            {
+                return BadRequest();
+            }
+            Image img = _myimage.Fliping(_imageserver.datastore.url, orientation);
+            return File(ImageToByteArray(img), "image/png");
         }
 
         private byte[] ImageToByteArray(System.Drawing.Image imageIn)
