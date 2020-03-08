@@ -59,7 +59,7 @@ namespace MyImage.Service
             }
             MemoryStream ms = new MemoryStream(bytes);
             _myimage = Image.FromStream(ms);
-            processor.display(url);
+            processor.Initialize(_myimage);
             return true;
         }
 

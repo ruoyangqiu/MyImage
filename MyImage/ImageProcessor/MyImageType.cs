@@ -14,7 +14,7 @@ namespace MyImage.ImageProcessor
     public class MyImageType : IMyImage
     {
         [JsonIgnore]
-        //private static Image OriginalImage;
+        private static Image OriginalImage;
         private static int OriginalWidth;
         private static int OriginalHeight;
         //private static Bitmap OriginalBitmap;
@@ -24,15 +24,13 @@ namespace MyImage.ImageProcessor
         //    this.ImageURI = imageuri;
         //    OriginalImage = Image.FromFile(this.ImageURI);
         //}
-        public Image display(string url)
+        public Image Initialize(Image img)
         {
-            Image img = convertImageFromWebUri(url);
+            OriginalImage = img;
             OriginalWidth = img.Width;
             OriginalHeight = img.Height;
             return img;
         }
-
-        
 
         public Image AngleRotation(Image img, int angle)
         {
@@ -75,15 +73,12 @@ namespace MyImage.ImageProcessor
             return MakeResize(img, newwidth, newheight);
         }
 
-        private Image convertImageFromWebUri (string url)
+        public ImageFormat GetImageFormat(Image img)
         {
-            WebClient wc = new WebClient();
-            byte[] bytes = wc.DownloadData(url);
-            MemoryStream ms = new MemoryStream(bytes);
-            Image img = Image.FromStream(ms);
-            //ms.Dispose();
-            return img;
+            Bitmap bmp = new Bitmap(img);
+            return bmp.RawFormat;
         }
+
 
         private static Bitmap RotateImage(Bitmap bmp, float angle)
         {
@@ -96,12 +91,12 @@ namespace MyImage.ImageProcessor
             float beta = 180 - 45 - gamma;
 
             float c1 = OriginalHeight;
-            float a1 = (float)(c1 * Math.Sin(alpha * Math.PI / 180) / Math.Sin(gamma * Math.PI / 180));
-            float b1 = (float)(c1 * Math.Sin(beta * Math.PI / 180) / Math.Sin(gamma * Math.PI / 180));
+            //float a1 = (float)(c1 * Math.Sin(alpha * Math.PI / 180) / Math.Sin(gamma * Math.PI / 180));
+            //float b1 = (float)(c1 * Math.Sin(beta * Math.PI / 180) / Math.Sin(gamma * Math.PI / 180));
 
-            float c2 = OriginalWidth;
-            float a2 = (float)(c2 * Math.Sin(alpha * Math.PI / 180) / Math.Sin(gamma * Math.PI / 180));
-            float b2 = (float)(c2 * Math.Sin(beta * Math.PI / 180) / Math.Sin(gamma * Math.PI / 180));
+            //float c2 = OriginalWidth;
+            //float a2 = (float)(c2 * Math.Sin(alpha * Math.PI / 180) / Math.Sin(gamma * Math.PI / 180));
+            //float b2 = (float)(c2 * Math.Sin(beta * Math.PI / 180) / Math.Sin(gamma * Math.PI / 180));
 
             float c3 = (float)Math.Sqrt(Math.Pow(OriginalHeight, 2) + Math.Pow(OriginalWidth, 2));
 

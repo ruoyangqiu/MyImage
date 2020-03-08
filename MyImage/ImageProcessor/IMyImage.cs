@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace MyImage.ImageProcessor
 {
     interface IMyImage
     {
-        Image display(string url);
+        Image Initialize(Image img);
 
         Image AngleRotation(Image img, int angle);
 
@@ -19,5 +20,7 @@ namespace MyImage.ImageProcessor
         Image GrayScale(Image img);
 
         Image Resize(Image img, int newwidth, int newheight);
+
+        ImageFormat GetImageFormat(Image img);
     }
 }
