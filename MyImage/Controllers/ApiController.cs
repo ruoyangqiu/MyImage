@@ -78,6 +78,13 @@ namespace MyImage.Controllers
             return File(ImageToByteArray(), "image/jpeg");
         }
 
+        [HttpGet("resizing")]
+        public ActionResult Resize(int weight, int height)
+        {
+            _image = _myimage.Resize(_image, weight, height);
+            return File(ImageToByteArray(), "image/jpeg");
+        }
+
         private byte[] ImageToByteArray()
         {
             MemoryStream ms2 = new MemoryStream();
