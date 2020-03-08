@@ -69,6 +69,11 @@ namespace MyImage.ImageProcessor
             return MakeGrayScale(img);
         }
 
+        public Image Resize(Image img, int newwidth, int newheight)
+        {
+            return MakeResize(img, newwidth, newheight);
+        }
+
         private Image convertImageFromWebUri (string url)
         {
             WebClient wc = new WebClient();
@@ -131,5 +136,9 @@ namespace MyImage.ImageProcessor
             return (Image)bmp;
         }
 
+        private Image MakeResize(Image img, int newwidth, int newheight)
+        {
+            return img;
+        }
     }
 }

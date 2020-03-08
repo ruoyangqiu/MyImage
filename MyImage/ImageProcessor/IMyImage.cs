@@ -17,5 +17,7 @@ namespace MyImage.ImageProcessor
         Image Fliping(Image img, string orientation);
 
         Image GrayScale(Image img);
+
+        Image Resize(Image img, int newwidth, int newheight);
     }
 }
