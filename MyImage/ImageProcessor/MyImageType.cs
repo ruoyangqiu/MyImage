@@ -75,8 +75,7 @@ namespace MyImage.ImageProcessor
 
         public ImageFormat GetImageFormat(Image img)
         {
-            Bitmap bmp = new Bitmap(img);
-            return bmp.RawFormat;
+            return img.RawFormat;
         }
 
 
