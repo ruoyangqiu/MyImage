@@ -4,6 +4,7 @@ using MyImage.ImageProcessor;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -92,10 +93,17 @@ namespace MyImage.Service
             return ImageToByteArray();
         }
 
+        public string GetImageFormat()
+        {
+            string format = "image/" + processor.GetImageFormat(_myimage).ToString();
+            return format;
+        }
+
         private byte[] ImageToByteArray()
         {
             MemoryStream ms2 = new MemoryStream();
-            _myimage.Save(ms2, System.Drawing.Imaging.ImageFormat.Png);
+            ImageFormat format= processor.GetImageFormat(_myimage);
+            _myimage.Save(ms2, format);
             return ms2.ToArray();
         }
     }
