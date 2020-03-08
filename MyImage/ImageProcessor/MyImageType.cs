@@ -50,18 +50,18 @@ namespace MyImage.ImageProcessor
             throw new NotImplementedException();
         }
 
-        public Image Fliping(string url, int oriantion)
+        public Image Fliping(Image img, string orientation)
         {
-            Image flip = convertImageFromWebUri(url);
-            if(oriantion == 1)
+            //Image flip = convertImageFromWebUri(url);
+            if(orientation.Equals("vertical", StringComparison.InvariantCultureIgnoreCase))
             {
-                flip.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                img.RotateFlip(RotateFlipType.RotateNoneFlipY);
             }
-            if(oriantion == 0)
+            if(orientation.Equals("horizontal", StringComparison.InvariantCultureIgnoreCase))
             {
-                flip.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                img.RotateFlip(RotateFlipType.RotateNoneFlipX);
             }
-            return flip;
+            return img;
         }
 
         private Image convertImageFromWebUri (string url)

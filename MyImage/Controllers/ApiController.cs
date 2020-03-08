@@ -25,7 +25,7 @@ namespace MyImage.Controllers
         //private ImageMock im = ImageMock.Instance;
         private MyImageServer _imageserver = new MyImageServer();
         //private MemoryStream _imagestream;
-
+        private static Image _image;
         //private Image _image;
 
         private readonly ILogger<ApiController> _logger;
@@ -42,10 +42,10 @@ namespace MyImage.Controllers
         {
 
             _imageserver.datastore.add(url);
-            Image img = _myimage.display(_imageserver.datastore.url);
+            _image = _myimage.display(_imageserver.datastore.url);
             //im.add(_imageurl);
             Console.WriteLine(_imageserver.datastore.url);
-            return File(ImageToByteArray(img), "image/png");
+            return File(ImageToByteArray(_image), "image/png");
         }
 
         [HttpGet("anglerotation")]
@@ -61,14 +61,14 @@ namespace MyImage.Controllers
             return File(b, "image/png");
         }
         [HttpGet("flipping")]
-        public ActionResult Filp(int orientation)
+        public ActionResult Filp(string orientation)
         {
-            if(orientation != 0 && orientation != 1)
+            if(!orientation.Equals("horizontal", StringComparison.InvariantCultureIgnoreCase) && !orientation.Equals("vertical", StringComparison.InvariantCultureIgnoreCase))
             {
                 return BadRequest();
             }
-            Image img = _myimage.Fliping(_imageserver.datastore.url, orientation);
-            return File(ImageToByteArray(img), "image/png");
+            _image = _myimage.Fliping(_image, orientation);
+            return File(ImageToByteArray(_image), "image/png");
         }
 
         private byte[] ImageToByteArray(System.Drawing.Image imageIn)

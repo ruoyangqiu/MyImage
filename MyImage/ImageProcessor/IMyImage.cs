@@ -14,6 +14,6 @@ namespace MyImage.ImageProcessor
 
         Image Rotation(string url);
 
-        Image Fliping(string url, int oriantion);
+        Image Fliping(Image img, string orientation);
     }
 }
