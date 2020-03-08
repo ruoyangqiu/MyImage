@@ -19,13 +19,13 @@ namespace MyImage.Controllers
     {
         
 
-        private IMyImage _myimage = new MyImageType();
+        //private IMyImage _myimage = new MyImageType();
         //private List<string> _imagelist = new List<string>();
         //private string _imageurl = "";
         //private ImageMock im = ImageMock.Instance;
         private MyImageServer _imageserver = MyImageServer.Instance;
         //private MemoryStream _imagestream;
-        private static Image _image;
+        //private static Image _image;
         //private Image _image;
 
         private readonly ILogger<ApiController> _logger;
@@ -38,9 +38,16 @@ namespace MyImage.Controllers
         
 
         [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         public ActionResult Create(string url)
         {
-            _imageserver.InitializeImage(url);
+
+            bool validurl = _imageserver.InitializeImage(url);
+            if(!validurl)
+            {
+                return BadRequest();
+            }
             return File(_imageserver.GetDisplay(), "image/jpeg");
         }
 
@@ -73,5 +80,6 @@ namespace MyImage.Controllers
             //_image = _myimage.Resize(_image, weight, height);
             return File(_imageserver.GetResize(width, height), "image/jpeg");
         }
+
     }
 }

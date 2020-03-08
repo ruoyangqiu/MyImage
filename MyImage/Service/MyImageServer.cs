@@ -45,14 +45,22 @@ namespace MyImage.Service
         private static Image _myimage;
         private IMyImage processor = new MyImageType();
 
-        public void InitializeImage(string url)
+        public bool InitializeImage(string url)
         {
             _myImageUrl = url;
-            processor.display(url);
             WebClient wc = new WebClient();
-            byte[] bytes = wc.DownloadData(_myImageUrl);
+            byte[] bytes;
+            try
+            {
+                 bytes= wc.DownloadData(_myImageUrl);
+            } catch(Exception)
+            {
+                return false;
+            }
             MemoryStream ms = new MemoryStream(bytes);
             _myimage = Image.FromStream(ms);
+            processor.display(url);
+            return true;
         }
 
         public byte[] GetDisplay()
