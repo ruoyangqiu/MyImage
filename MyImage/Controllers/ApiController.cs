@@ -71,6 +71,13 @@ namespace MyImage.Controllers
             return File(ImageToByteArray(), "image/png");
         }
 
+        [HttpGet("grayscale")]
+        public ActionResult Greyscale()
+        {
+            _image = _myimage.GrayScale(_image);
+            return File(ImageToByteArray(), "image/jpeg");
+        }
+
         private byte[] ImageToByteArray()
         {
             MemoryStream ms2 = new MemoryStream();

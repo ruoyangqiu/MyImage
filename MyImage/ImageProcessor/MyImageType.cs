@@ -40,15 +40,9 @@ namespace MyImage.ImageProcessor
             return img;
         }
 
-        public string Rotation()
+        public Image Rotation(Image img)
         {
-            Image rotate = OriginalImage;
-            rotate.RotateFlip(RotateFlipType.Rotate90FlipNone);
-            string url = "Resource/rotation.jpg";
-            //Image rotate = (Image)rotateImage(bmp, (float)angle);
-            rotate.Save(url);
-
-            return url;
+            return AngleRotation(img, 90);
         }
 
         public Image Rotation(string url)
@@ -68,6 +62,11 @@ namespace MyImage.ImageProcessor
                 img.RotateFlip(RotateFlipType.RotateNoneFlipX);
             }
             return img;
+        }
+
+        public Image GrayScale(Image img)
+        {
+            return MakeGrayScale(img);
         }
 
         private Image convertImageFromWebUri (string url)
@@ -113,6 +112,23 @@ namespace MyImage.ImageProcessor
                 g.DrawImage(bmp, new Point((width - bmp.Width) / 2, (height - bmp.Height) / 2)); //draw the image on the new bitmap
             }
             return rotatedImage;
+        }
+
+        private Image MakeGrayScale(Image img)
+        {
+            Bitmap bmp = new Bitmap(img);
+            for(int i = 0; i < img.Width; i ++)
+            {
+                for(int j = 0; j < img.Height; j++)
+                {
+                    Color OriginalColor = bmp.GetPixel(i, j);
+                    int grayscale = (int)((OriginalColor.R * 0.3) + (OriginalColor.G *
+                    0.59) + (OriginalColor.B * 0.11));
+                    Color NewColor = Color.FromArgb(grayscale, grayscale, grayscale);
+                    bmp.SetPixel(i, j, NewColor);
+                }
+            }
+            return (Image)bmp;
         }
 
     }

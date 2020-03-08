@@ -12,8 +12,10 @@ namespace MyImage.ImageProcessor
 
         Image AngleRotation(Image img, int angle);
 
-        Image Rotation(string url);
+        Image Rotation(Image img);
 
         Image Fliping(Image img, string orientation);
+
+        Image GrayScale(Image img);
     }
 }
