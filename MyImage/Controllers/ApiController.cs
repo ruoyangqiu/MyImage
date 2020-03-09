@@ -91,12 +91,25 @@ namespace MyImage.Controllers
 
         [HttpGet("resizing")]
         [ProducesResponseType(typeof(NoImageError), 400)]
+        [ProducesResponseType(typeof(InvalidWidthError), 400)]
+        [ProducesResponseType(typeof(InvalidHeightError), 400)]
         public ActionResult Resize(int width, int height)
         {
             if (_imageserver.EmptyImage())
             {
                 return StatusCode(400, new NoImageError());
             }
+
+            if(width <= 0)
+            {
+                return StatusCode(400, new InvalidWidthError());
+            }
+
+            if (height <= 0)
+            {
+                return StatusCode(400, new InvalidHeightError());
+            }
+
             return File(_imageserver.GetResize(width, height), _imageserver.GetImageFormat());
         }
 
