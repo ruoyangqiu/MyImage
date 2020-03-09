@@ -14,11 +14,12 @@ namespace MyImage.Service
 {
     public class MyImageServer
     {
-        public ImageMock datastore = ImageMock.Instance;
+        //public ImageMock datastore = ImageMock.Instance;
 
         #region Singleton
         private static volatile MyImageServer instance;
         private static readonly object syncRoot = new Object();
+
 
 
         public static MyImageServer Instance
@@ -44,6 +45,7 @@ namespace MyImage.Service
 
         public static string _myImageUrl;
         private static Image _myimage;
+        private static ImageFormat _format;
         private IMyImage processor = new MyImageType();
 
         public bool InitializeImage(string url)
@@ -60,6 +62,7 @@ namespace MyImage.Service
             }
             MemoryStream ms = new MemoryStream(bytes);
             _myimage = Image.FromStream(ms);
+            _format = _myimage.RawFormat;
             processor.Initialize(_myimage);
             return true;
         }
@@ -95,7 +98,7 @@ namespace MyImage.Service
 
         public string GetImageFormat()
         {
-            string format = "image/" + processor.GetImageFormat(_myimage).ToString();
+            string format = "image/" + _format.ToString();
             return format;
         }
 
@@ -103,7 +106,7 @@ namespace MyImage.Service
         {
             MemoryStream ms2 = new MemoryStream();
             ImageFormat format= processor.GetImageFormat(_myimage);
-            _myimage.Save(ms2, format);
+            _myimage.Save(ms2, _format);
             return ms2.ToArray();
         }
     }

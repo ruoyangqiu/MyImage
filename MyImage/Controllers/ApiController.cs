@@ -52,13 +52,13 @@ namespace MyImage.Controllers
             {
                 return StatusCode(400, new InvalidUriError());
             }
-            return File(_imageserver.GetDisplay(), "image/jpeg");
+            return File(_imageserver.GetDisplay(), _imageserver.GetImageFormat());
         }
 
         [HttpGet("anglerotation")]
         public ActionResult RotateByAngle(int angle)
         {
-            return File(_imageserver.GetRotationByAngle(angle), "image/jpeg");
+            return File(_imageserver.GetRotationByAngle(angle), _imageserver.GetImageFormat());
         }
 
         [HttpGet("flipping")]
@@ -71,21 +71,21 @@ namespace MyImage.Controllers
                 return StatusCode(400, new InvalidOrientationError());
             }
             //_image = _myimage.Fliping(_image, orientation);
-            return File(_imageserver.GetFlipping(orientation), "image/jpeg");
+            return File(_imageserver.GetFlipping(orientation), _imageserver.GetImageFormat());
         }
 
         [HttpGet("grayscale")]
         public ActionResult Greyscale()
         {
             //_image = _myimage.GrayScale(_image);
-            return File(_imageserver.GetGrayScale(), "image/jpeg");
+            return File(_imageserver.GetGrayScale(), _imageserver.GetImageFormat());
         }
 
         [HttpGet("resizing")]
         public ActionResult Resize(int width, int height)
         {
             //_image = _myimage.Resize(_image, weight, height);
-            return File(_imageserver.GetResize(width, height), "image/jpeg");
+            return File(_imageserver.GetResize(width, height), _imageserver.GetImageFormat());
         }
 
     }
