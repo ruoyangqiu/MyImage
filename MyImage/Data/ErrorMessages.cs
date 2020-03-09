@@ -14,11 +14,20 @@ namespace MyImage.Data
             public string Message { get => "The URI is Invalid!"; }
         }
 
-        public class InvalidOrientationError
+        public class NoImageError
         {
             public int ErrorCode { get => 102; }
 
+            public string Message { get => "You should upload an image first!"; }
+        }
+
+        public class InvalidOrientationError
+        {
+            public int ErrorCode { get => 103; }
+
             public string Message { get => "Please Use 'Vertical' or 'Horizontal' as Parameter!"; } 
         }
+
+
     }
 }
