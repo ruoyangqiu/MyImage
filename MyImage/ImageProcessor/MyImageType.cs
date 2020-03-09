@@ -39,14 +39,16 @@ namespace MyImage.ImageProcessor
             return img;
         }
 
-        public Image Rotation(Image img)
+        public Image LeftRotation(Image img)
         {
-            return AngleRotation(img, 90);
+            img.RotateFlip(RotateFlipType.Rotate270FlipNone);
+            return img;
         }
 
-        public Image Rotation(string url)
+        public Image RightRotation(Image img)
         {
-            throw new NotImplementedException();
+            img.RotateFlip(RotateFlipType.Rotate90FlipNone);
+            return img;
         }
 
         public Image Fliping(Image img, string orientation)
@@ -75,22 +77,13 @@ namespace MyImage.ImageProcessor
 
         public Image Thumbnail(Image img)
         {
-            
-
-
-
             Image.GetThumbnailImageAbort myCallback =
 
                     new Image.GetThumbnailImageAbort(ThumbnailCallback);
 
             Bitmap myBitmap = new Bitmap(img);
 
-            Image myThumbnail = myBitmap.GetThumbnailImage(96, 96,
-
-                myCallback, IntPtr.Zero);
-
-            myThumbnail.Save("C:\\Users\\robin\\Pictures\\thumb.png", ImageFormat.Png);
-
+            Image myThumbnail = myBitmap.GetThumbnailImage(96, 96, myCallback, IntPtr.Zero);
 
             return myThumbnail;
         }
@@ -103,22 +96,7 @@ namespace MyImage.ImageProcessor
 
         private static Bitmap RotateImage(Bitmap bmp, float angle)
         {
-            float alpha = 45;
-
-            //edit: negative angle +360
-            while (alpha < 0) alpha += 360;
-
-            float gamma = 90;
-            float beta = 180 - 45 - gamma;
-
-            float c1 = OriginalHeight;
-            //float a1 = (float)(c1 * Math.Sin(alpha * Math.PI / 180) / Math.Sin(gamma * Math.PI / 180));
-            //float b1 = (float)(c1 * Math.Sin(beta * Math.PI / 180) / Math.Sin(gamma * Math.PI / 180));
-
-            //float c2 = OriginalWidth;
-            //float a2 = (float)(c2 * Math.Sin(alpha * Math.PI / 180) / Math.Sin(gamma * Math.PI / 180));
-            //float b2 = (float)(c2 * Math.Sin(beta * Math.PI / 180) / Math.Sin(gamma * Math.PI / 180));
-
+         
             float c3 = (float)Math.Sqrt(Math.Pow(OriginalHeight, 2) + Math.Pow(OriginalWidth, 2));
 
             int width = Convert.ToInt32(c3);

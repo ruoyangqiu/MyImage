@@ -19,15 +19,7 @@ namespace MyImage.Controllers
     public class ApiController : ControllerBase
     {
         
-
-        //private IMyImage _myimage = new MyImageType();
-        //private List<string> _imagelist = new List<string>();
-        //private string _imageurl = "";
-        //private ImageMock im = ImageMock.Instance;
         private MyImageServer _imageserver = MyImageServer.Instance;
-        //private MemoryStream _imagestream;
-        //private static Image _image;
-        //private Image _image;
 
         private readonly ILogger<ApiController> _logger;
 
@@ -56,6 +48,8 @@ namespace MyImage.Controllers
         }
 
         [HttpGet("anglerotation")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(InvalidUriError), 400)]
         public ActionResult RotateByAngle(int angle)
         {
             return File(_imageserver.GetRotationByAngle(angle), _imageserver.GetImageFormat());
@@ -70,29 +64,40 @@ namespace MyImage.Controllers
             {
                 return StatusCode(400, new InvalidOrientationError());
             }
-            //_image = _myimage.Fliping(_image, orientation);
+
             return File(_imageserver.GetFlipping(orientation), _imageserver.GetImageFormat());
         }
 
         [HttpGet("grayscale")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(InvalidUriError), 400)]
         public ActionResult Greyscale()
         {
-            //_image = _myimage.GrayScale(_image);
             return File(_imageserver.GetGrayScale(), _imageserver.GetImageFormat());
         }
 
         [HttpGet("resizing")]
         public ActionResult Resize(int width, int height)
         {
-            //_image = _myimage.Resize(_image, weight, height);
             return File(_imageserver.GetResize(width, height), _imageserver.GetImageFormat());
         }
 
         [HttpGet("thumbnail")]
         public ActionResult Thumbnail()
         {
-            //_image = _myimage.Resize(_image, weight, height);
             return File(_imageserver.GetTumbnail(), _imageserver.GetImageFormat());
+        }
+
+        [HttpGet("leftrotation")]
+        public ActionResult LeftRotation()
+        {
+            return File(_imageserver.LeftRotation(), _imageserver.GetImageFormat());
+        }
+
+        [HttpGet("rightrotation")]
+        public ActionResult RightRotation()
+        {
+            return File(_imageserver.RightRotation(), _imageserver.GetImageFormat());
         }
 
     }

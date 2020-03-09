@@ -13,7 +13,9 @@ namespace MyImage.ImageProcessor
 
         Image AngleRotation(Image img, int angle);
 
-        Image Rotation(Image img);
+        Image LeftRotation(Image img);
+
+        Image RightRotation(Image img);
 
         Image Fliping(Image img, string orientation);
 

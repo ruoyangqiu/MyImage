@@ -105,6 +105,18 @@ namespace MyImage.Service
             return ms2.ToArray();
         }
 
+        public byte[] LeftRotation()
+        {
+            _myimage = processor.LeftRotation(_myimage);
+            return ImageToByteArray();
+        }
+
+        public byte[] RightRotation()
+        {
+            _myimage = processor.RightRotation(_myimage);
+            return ImageToByteArray();
+        }
+
         public string GetImageFormat()
         {
             string format = "image/" + _format.ToString();
