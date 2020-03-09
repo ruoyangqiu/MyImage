@@ -49,18 +49,27 @@ namespace MyImage.Controllers
 
         [HttpGet("anglerotation")]
         [ProducesResponseType(200)]
-        [ProducesResponseType(typeof(InvalidUriError), 400)]
+        [ProducesResponseType(typeof(NoImageError), 400)]
         public ActionResult RotateByAngle(int angle)
         {
+            if (_imageserver.EmptyImage())
+            {
+                return StatusCode(400, new NoImageError());
+            }
             return File(_imageserver.GetRotationByAngle(angle), _imageserver.GetImageFormat());
         }
 
         [HttpGet("flipping")]
         [ProducesResponseType(200)]
-        [ProducesResponseType(typeof(InvalidUriError), 400)]
+        [ProducesResponseType(typeof(NoImageError), 400)]
+        [ProducesResponseType(typeof(InvalidOrientationError), 400)]
         public ActionResult Filp(string orientation)
         {
-            if(!orientation.Equals("horizontal", StringComparison.InvariantCultureIgnoreCase) && !orientation.Equals("vertical", StringComparison.InvariantCultureIgnoreCase))
+            if (_imageserver.EmptyImage())
+            {
+                return StatusCode(400, new NoImageError());
+            }
+            if (!orientation.Equals("horizontal", StringComparison.InvariantCultureIgnoreCase) && !orientation.Equals("vertical", StringComparison.InvariantCultureIgnoreCase))
             {
                 return StatusCode(400, new InvalidOrientationError());
             }
@@ -70,33 +79,57 @@ namespace MyImage.Controllers
 
         [HttpGet("grayscale")]
         [ProducesResponseType(200)]
-        [ProducesResponseType(typeof(InvalidUriError), 400)]
+        [ProducesResponseType(typeof(NoImageError), 400)]
         public ActionResult Greyscale()
         {
+            if(_imageserver.EmptyImage())
+            {
+                return StatusCode(400, new NoImageError());
+            }
             return File(_imageserver.GetGrayScale(), _imageserver.GetImageFormat());
         }
 
         [HttpGet("resizing")]
+        [ProducesResponseType(typeof(NoImageError), 400)]
         public ActionResult Resize(int width, int height)
         {
+            if (_imageserver.EmptyImage())
+            {
+                return StatusCode(400, new NoImageError());
+            }
             return File(_imageserver.GetResize(width, height), _imageserver.GetImageFormat());
         }
 
         [HttpGet("thumbnail")]
+        [ProducesResponseType(typeof(NoImageError), 400)]
         public ActionResult Thumbnail()
         {
+            if (_imageserver.EmptyImage())
+            {
+                return StatusCode(400, new NoImageError());
+            }
             return File(_imageserver.GetTumbnail(), _imageserver.GetImageFormat());
         }
 
         [HttpGet("leftrotation")]
+        [ProducesResponseType(typeof(NoImageError), 400)]
         public ActionResult LeftRotation()
         {
+            if (_imageserver.EmptyImage())
+            {
+                return StatusCode(400, new NoImageError());
+            }
             return File(_imageserver.LeftRotation(), _imageserver.GetImageFormat());
         }
 
         [HttpGet("rightrotation")]
+        [ProducesResponseType(typeof(NoImageError), 400)]
         public ActionResult RightRotation()
         {
+            if (_imageserver.EmptyImage())
+            {
+                return StatusCode(400, new NoImageError());
+            }
             return File(_imageserver.RightRotation(), _imageserver.GetImageFormat());
         }
 

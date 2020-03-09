@@ -123,6 +123,11 @@ namespace MyImage.Service
             return format;
         }
 
+        public bool EmptyImage()
+        {
+            return string.IsNullOrEmpty(_myImageUrl);
+        }
+
         private byte[] ImageToByteArray()
         {
             MemoryStream ms2 = new MemoryStream();
