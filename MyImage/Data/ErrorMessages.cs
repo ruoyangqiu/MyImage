@@ -28,6 +28,19 @@ namespace MyImage.Data
             public string Message { get => "Please Use 'Vertical' or 'Horizontal' as Parameter!"; } 
         }
 
+        public class InvalidWidthError
+        {
+            public int ErrorCode { get => 104; }
+
+            public string Message { get => "Width must be positive!"; }
+        }
+
+        public class InvalidHeightError
+        {
+            public int ErrorCode { get => 105; }
+
+            public string Message { get => "Height must be positive!"; }
+        }
 
     }
 }
