@@ -39,7 +39,7 @@ namespace MyImage
                     Contact = new OpenApiContact
                     {
                         Name = "Ruoyang Qiu",
-                        Url = new Uri("https://github.com/tzhaojustdoit/AddressBook")
+                        Url = new Uri("https://github.com/ruoyangqiu/MyImage")
                     }
                 });
 
