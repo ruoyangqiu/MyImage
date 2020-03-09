@@ -96,6 +96,15 @@ namespace MyImage.Service
             return ImageToByteArray();
         }
 
+        public byte[] GetTumbnail()
+        {
+            Image thumb = processor.Thumbnail(_myimage);
+            MemoryStream ms2 = new MemoryStream();
+            ImageFormat format = processor.GetImageFormat(thumb);
+            thumb.Save(ms2, _format);
+            return ms2.ToArray();
+        }
+
         public string GetImageFormat()
         {
             string format = "image/" + _format.ToString();

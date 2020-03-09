@@ -75,8 +75,24 @@ namespace MyImage.ImageProcessor
 
         public Image Thumbnail(Image img)
         {
-            Image thumb = img.GetThumbnailImage(120, 120, () => false, IntPtr.Zero);
-            return thumb;
+            
+
+
+
+            Image.GetThumbnailImageAbort myCallback =
+
+                    new Image.GetThumbnailImageAbort(ThumbnailCallback);
+
+            Bitmap myBitmap = new Bitmap(img);
+
+            Image myThumbnail = myBitmap.GetThumbnailImage(96, 96,
+
+                myCallback, IntPtr.Zero);
+
+            myThumbnail.Save("C:\\Users\\robin\\Pictures\\thumb.png", ImageFormat.Png);
+
+
+            return myThumbnail;
         }
 
         public ImageFormat GetImageFormat(Image img)
@@ -158,6 +174,11 @@ namespace MyImage.ImageProcessor
                 }
             }
             return (Image)bmp;
+        }
+
+        private bool ThumbnailCallback()
+        {
+            return false;
         }
     }
 }

@@ -88,5 +88,12 @@ namespace MyImage.Controllers
             return File(_imageserver.GetResize(width, height), _imageserver.GetImageFormat());
         }
 
+        [HttpGet("thumbnail")]
+        public ActionResult Thumbnail()
+        {
+            //_image = _myimage.Resize(_image, weight, height);
+            return File(_imageserver.GetTumbnail(), _imageserver.GetImageFormat());
+        }
+
     }
 }
