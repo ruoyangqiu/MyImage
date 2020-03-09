@@ -73,6 +73,12 @@ namespace MyImage.ImageProcessor
             return MakeResize(img, newwidth, newheight);
         }
 
+        public Image Thumbnail(Image img)
+        {
+            Image thumb = img.GetThumbnailImage(120, 120, () => false, IntPtr.Zero);
+            return thumb;
+        }
+
         public ImageFormat GetImageFormat(Image img)
         {
             return img.RawFormat;

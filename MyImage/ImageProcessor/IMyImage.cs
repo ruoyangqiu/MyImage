@@ -21,6 +21,9 @@ namespace MyImage.ImageProcessor
 
         Image Resize(Image img, int newwidth, int newheight);
 
+        Image Thumbnail(Image img);
+
         ImageFormat GetImageFormat(Image img);
+
     }
 }
