@@ -44,7 +44,7 @@ namespace MyImage.Controllers
             {
                 return StatusCode(400, new InvalidUriError());
             }
-            return File(_imageserver.GetDisplay(), _imageserver.GetImageFormat());
+            return StatusCode(200);
         }
 
         [HttpGet]
@@ -59,7 +59,7 @@ namespace MyImage.Controllers
             return File(_imageserver.GetDisplay(), _imageserver.GetImageFormat());
         }
 
-        [HttpGet("anglerotation")]
+        [HttpPut("anglerotation")]
         [ProducesResponseType(200)]
         [ProducesResponseType(typeof(NoImageError), 400)]
         public ActionResult RotateByAngle(int angle)
@@ -68,10 +68,11 @@ namespace MyImage.Controllers
             {
                 return StatusCode(400, new NoImageError());
             }
-            return File(_imageserver.GetRotationByAngle(angle), _imageserver.GetImageFormat());
+            _imageserver.GetRotationByAngle(angle);
+            return StatusCode(200);
         }
 
-        [HttpGet("flipping")]
+        [HttpPut("flipping")]
         [ProducesResponseType(200)]
         [ProducesResponseType(typeof(NoImageError), 400)]
         [ProducesResponseType(typeof(InvalidOrientationError), 400)]
@@ -85,11 +86,11 @@ namespace MyImage.Controllers
             {
                 return StatusCode(400, new InvalidOrientationError());
             }
-
-            return File(_imageserver.GetFlipping(orientation), _imageserver.GetImageFormat());
+            _imageserver.GetFlipping(orientation);
+            return StatusCode(200);
         }
 
-        [HttpGet("grayscale")]
+        [HttpPut("grayscale")]
         [ProducesResponseType(200)]
         [ProducesResponseType(typeof(NoImageError), 400)]
         public ActionResult Greyscale()
@@ -98,10 +99,11 @@ namespace MyImage.Controllers
             {
                 return StatusCode(400, new NoImageError());
             }
-            return File(_imageserver.GetGrayScale(), _imageserver.GetImageFormat());
+            _imageserver.GetGrayScale();
+            return StatusCode(200);
         }
 
-        [HttpGet("resizing")]
+        [HttpPut("resizing")]
         [ProducesResponseType(typeof(NoImageError), 400)]
         [ProducesResponseType(typeof(InvalidWidthError), 400)]
         [ProducesResponseType(typeof(InvalidHeightError), 400)]
@@ -121,13 +123,25 @@ namespace MyImage.Controllers
             {
                 return StatusCode(400, new InvalidHeightError());
             }
+            _imageserver.GetResize(width, height);
+            return StatusCode(200);
+        }
 
-            return File(_imageserver.GetResize(width, height), _imageserver.GetImageFormat());
+        [HttpPut("thumbnail")]
+        [ProducesResponseType(typeof(NoImageError), 400)]
+        public ActionResult Thumbnail()
+        {
+            if (_imageserver.EmptyImage())
+            {
+                return StatusCode(400, new NoImageError());
+            }
+            _imageserver.GetTumbnail();
+            return StatusCode(200);
         }
 
         [HttpGet("thumbnail")]
         [ProducesResponseType(typeof(NoImageError), 400)]
-        public ActionResult Thumbnail()
+        public ActionResult GetThumbnail()
         {
             if (_imageserver.EmptyImage())
             {
@@ -136,7 +150,7 @@ namespace MyImage.Controllers
             return File(_imageserver.GetTumbnail(), _imageserver.GetImageFormat());
         }
 
-        [HttpGet("leftrotation")]
+        [HttpPut("leftrotation")]
         [ProducesResponseType(typeof(NoImageError), 400)]
         public ActionResult LeftRotation()
         {
@@ -144,10 +158,11 @@ namespace MyImage.Controllers
             {
                 return StatusCode(400, new NoImageError());
             }
-            return File(_imageserver.LeftRotation(), _imageserver.GetImageFormat());
+            _imageserver.LeftRotation();
+            return StatusCode(200);
         }
 
-        [HttpGet("rightrotation")]
+        [HttpPut("rightrotation")]
         [ProducesResponseType(typeof(NoImageError), 400)]
         public ActionResult RightRotation()
         {
@@ -155,7 +170,8 @@ namespace MyImage.Controllers
             {
                 return StatusCode(400, new NoImageError());
             }
-            return File(_imageserver.RightRotation(), _imageserver.GetImageFormat());
+            _imageserver.RightRotation();
+            return StatusCode(200);
         }
 
     }
