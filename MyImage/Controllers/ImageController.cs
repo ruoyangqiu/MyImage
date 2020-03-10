@@ -16,14 +16,14 @@ namespace MyImage.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ApiController : ControllerBase
+    public class ImageController : ControllerBase
     {
         
         private MyImageServer _imageserver = MyImageServer.Instance;
 
-        private readonly ILogger<ApiController> _logger;
+        private readonly ILogger<ImageController> _logger;
 
-        public ApiController(ILogger<ApiController> logger)
+        public ImageController(ILogger<ImageController> logger)
         {
             _logger = logger;
         }
@@ -43,6 +43,18 @@ namespace MyImage.Controllers
             if(!validurl)
             {
                 return StatusCode(400, new InvalidUriError());
+            }
+            return File(_imageserver.GetDisplay(), _imageserver.GetImageFormat());
+        }
+
+        [HttpGet]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(NoImageError), 400)]
+        public ActionResult Get()
+        {
+            if (_imageserver.EmptyImage())
+            {
+                return StatusCode(400, new NoImageError());
             }
             return File(_imageserver.GetDisplay(), _imageserver.GetImageFormat());
         }
