@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Drawing;
 using Newtonsoft.Json;
 using System.Drawing.Drawing2D;
-using System.Net;
-using System.IO;
 using System.Drawing.Imaging;
 
 namespace MyImage.ImageProcessor

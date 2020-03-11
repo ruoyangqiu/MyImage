@@ -1,20 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MyImage.Data;
+﻿
 using MyImage.ImageProcessor;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
+
 using System.Net;
-using System.Threading.Tasks;
 
 namespace MyImage.Service
 {
     public class MyImageServer
     {
-        //public ImageMock datastore = ImageMock.Instance;
 
         #region Singleton
         private static volatile MyImageServer instance;
