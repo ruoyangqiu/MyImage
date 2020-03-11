@@ -42,11 +42,8 @@ namespace MyImage
                         Url = new Uri("https://github.com/ruoyangqiu/MyImage")
                     }
                 });
+                
 
-                // Set the comments path for the Swagger JSON and UI.
-                //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                //c.IncludeXmlComments(xmlPath);
             });
         }
 
@@ -57,8 +54,6 @@ namespace MyImage
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -75,7 +70,7 @@ namespace MyImage
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "AddressBook API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ImageProcessor API V1");
             });
 
         }
