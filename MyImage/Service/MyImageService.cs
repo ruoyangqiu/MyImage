@@ -11,7 +11,9 @@ namespace MyImage.Service
 {
     public class MyImageService
     {
-
+        /// <summary>
+        /// Singleton
+        /// </summary>
         #region Singleton
         private static volatile MyImageService instance;
         private static readonly object syncRoot = new Object();
@@ -39,13 +41,20 @@ namespace MyImage.Service
 
         #endregion Singleton
 
+        #region OriginalImageProperties
         public static string _myImageUrl;
         private static Image _myimage;
         private static ImageFormat _format;
         private static int OriginalWidth;
         private static int OriginalHeight;
         private IMyImage processor = new MyImageType();
+        #endregion OriginalImageProperties
 
+        /// <summary>
+        /// Initialize ImageServer
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         public bool InitializeImage(string url)
         {
             _myImageUrl = url;
@@ -67,6 +76,10 @@ namespace MyImage.Service
             return true;
         }
 
+        /// <summary>
+        /// Return actural Image
+        /// </summary>
+        /// <returns></returns>
         public byte[] GetDisplay()
         {
             return ImageToByteArray();
@@ -136,6 +149,7 @@ namespace MyImage.Service
             return string.IsNullOrEmpty(_myImageUrl);
         }
 
+        // Convert Image to a byte array for display
         private byte[] ImageToByteArray()
         {
             MemoryStream ms2 = new MemoryStream();
