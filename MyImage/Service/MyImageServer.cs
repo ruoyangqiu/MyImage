@@ -42,6 +42,8 @@ namespace MyImage.Service
         public static string _myImageUrl;
         private static Image _myimage;
         private static ImageFormat _format;
+        private static int OriginalWidth;
+        private static int OriginalHeight;
         private IMyImage processor = new MyImageType();
 
         public bool InitializeImage(string url)
@@ -59,7 +61,9 @@ namespace MyImage.Service
             MemoryStream ms = new MemoryStream(bytes);
             _myimage = Image.FromStream(ms);
             _format = _myimage.RawFormat;
-            processor.Initialize(_myimage);
+            OriginalHeight = _myimage.Height;
+            OriginalWidth = _myimage.Width;
+            //processor.Initialize(_myimage);
             return true;
         }
 
@@ -70,7 +74,7 @@ namespace MyImage.Service
 
         public byte[] GetRotationByAngle(int angle)
         {
-            _myimage = processor.AngleRotation(_myimage, angle);
+            _myimage = processor.AngleRotation(_myimage, angle, OriginalWidth, OriginalHeight);
             return ImageToByteArray();
         }
 
@@ -89,6 +93,14 @@ namespace MyImage.Service
         public byte[] GetResize(int width, int heigth)
         {
             _myimage = processor.Resize(_myimage, width, heigth);
+            if(heigth > OriginalHeight)
+            {
+                OriginalHeight = heigth;
+            }
+            if (width > OriginalWidth)
+            {
+                OriginalWidth = width;
+            }
             return ImageToByteArray();
         }
 
