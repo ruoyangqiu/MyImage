@@ -9,13 +9,6 @@ namespace MyImage.ImageProcessor
     public class MyImageType : IMyImage
     {
         
-        //public Image Initialize(Image img)
-        //{
-        //    //OriginalImage = img;
-        //    //OriginalWidth = img.Width;
-        //    //OriginalHeight = img.Height;
-        //    return img;
-        //}
 
         public Image AngleRotation(Image img, int angle, int width, int height)
         {
