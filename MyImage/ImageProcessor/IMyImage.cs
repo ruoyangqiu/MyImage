@@ -9,9 +9,9 @@ namespace MyImage.ImageProcessor
 {
     interface IMyImage
     {
-        Image Initialize(Image img);
+        //Image Initialize(Image img);
 
-        Image AngleRotation(Image img, int angle);
+        Image AngleRotation(Image img, int angle, int width, int height);
 
         Image LeftRotation(Image img);
 

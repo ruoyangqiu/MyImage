@@ -8,29 +8,19 @@ namespace MyImage.ImageProcessor
 {
     public class MyImageType : IMyImage
     {
-        [JsonIgnore]
-        private static Image OriginalImage;
-        private static int OriginalWidth;
-        private static int OriginalHeight;
-        //private static Bitmap OriginalBitmap;
-
-        //public MyImageType(string imageuri)
+        
+        //public Image Initialize(Image img)
         //{
-        //    this.ImageURI = imageuri;
-        //    OriginalImage = Image.FromFile(this.ImageURI);
+        //    //OriginalImage = img;
+        //    //OriginalWidth = img.Width;
+        //    //OriginalHeight = img.Height;
+        //    return img;
         //}
-        public Image Initialize(Image img)
-        {
-            OriginalImage = img;
-            OriginalWidth = img.Width;
-            OriginalHeight = img.Height;
-            return img;
-        }
 
-        public Image AngleRotation(Image img, int angle)
+        public Image AngleRotation(Image img, int angle, int width, int height)
         {
             Bitmap bmp = new Bitmap(img);
-            img = (Image)RotateImage(bmp, (float)angle);
+            img = (Image)RotateImage(bmp, (float)angle, width, height);
             return img;
         }
 
@@ -89,7 +79,7 @@ namespace MyImage.ImageProcessor
         }
 
 
-        private static Bitmap RotateImage(Bitmap bmp, float angle)
+        private static Bitmap RotateImage(Bitmap bmp, float angle, int OriginalWidth, int OriginalHeight)
         {
          
             float c3 = (float)Math.Sqrt(Math.Pow(OriginalHeight, 2) + Math.Pow(OriginalWidth, 2));
