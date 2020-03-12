@@ -42,5 +42,11 @@ namespace MyImage.Data
             public string Message { get => "Height must be positive!"; }
         }
 
+        public class EmptyParameterError
+        {
+            public int ErrorCode { get => 106; }
+
+            public string Message { get => "The Parameter is empty!"; }
+        }
     }
 }

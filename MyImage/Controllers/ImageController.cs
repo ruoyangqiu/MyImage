@@ -60,7 +60,11 @@ namespace MyImage.Controllers
             {
                 return StatusCode(400, new NoImageError());
             }
-            _imageserver.GetRotationByAngle(angle);
+            if (angle != 0)
+            {
+                _imageserver.GetRotationByAngle(angle);
+            }
+            
             return StatusCode(200);
         }
 
@@ -68,11 +72,16 @@ namespace MyImage.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(typeof(NoImageError), 400)]
         [ProducesResponseType(typeof(InvalidOrientationError), 400)]
+        [ProducesResponseType(typeof(EmptyParameterError), 400)]
         public ActionResult Filp(string orientation)
         {
             if (_imageserver.EmptyImage())
             {
                 return StatusCode(400, new NoImageError());
+            }
+            if(string.IsNullOrEmpty(orientation))
+            {
+                return StatusCode(400, new EmptyParameterError());
             }
             if (!orientation.Equals("horizontal", StringComparison.InvariantCultureIgnoreCase) && !orientation.Equals("vertical", StringComparison.InvariantCultureIgnoreCase))
             {
