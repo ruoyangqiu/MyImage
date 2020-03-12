@@ -8,6 +8,6 @@ namespace MyImage.Data
     {
         public string guid = new Guid().ToString();
 
-        public MyImageServer _myimage = MyImageServer.Instance;
+        public MyImageService _myimage = MyImageService.Instance;
     }
 }

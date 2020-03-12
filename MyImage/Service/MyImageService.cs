@@ -9,16 +9,16 @@ using System.Net;
 
 namespace MyImage.Service
 {
-    public class MyImageServer
+    public class MyImageService
     {
 
         #region Singleton
-        private static volatile MyImageServer instance;
+        private static volatile MyImageService instance;
         private static readonly object syncRoot = new Object();
 
 
 
-        public static MyImageServer Instance
+        public static MyImageService Instance
         {
             get
             {
@@ -28,7 +28,7 @@ namespace MyImage.Service
                     {
                         if (instance == null)
                         {
-                            instance = new MyImageServer();
+                            instance = new MyImageService();
                         }
                     }
                 }

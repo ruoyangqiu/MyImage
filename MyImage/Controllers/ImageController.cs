@@ -11,7 +11,7 @@ namespace MyImage.Controllers
     public class ImageController : ControllerBase
     {
         
-        private MyImageServer _imageserver = MyImageServer.Instance;
+        private MyImageService _imageserver = MyImageService.Instance;
 
         private readonly ILogger<ImageController> _logger;
 
@@ -51,22 +51,7 @@ namespace MyImage.Controllers
             return File(_imageserver.GetDisplay(), _imageserver.GetImageFormat());
         }
 
-        [HttpPut("anglerotation")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(typeof(NoImageError), 400)]
-        public ActionResult RotateByAngle(int angle)
-        {
-            if (_imageserver.EmptyImage())
-            {
-                return StatusCode(400, new NoImageError());
-            }
-            if (angle != 0)
-            {
-                _imageserver.GetRotationByAngle(angle);
-            }
-            
-            return StatusCode(200);
-        }
+        
 
         [HttpPut("flipping")]
         [ProducesResponseType(200)]
@@ -128,28 +113,7 @@ namespace MyImage.Controllers
             return StatusCode(200);
         }
 
-        [HttpPut("thumbnail")]
-        [ProducesResponseType(typeof(NoImageError), 400)]
-        public ActionResult Thumbnail()
-        {
-            if (_imageserver.EmptyImage())
-            {
-                return StatusCode(400, new NoImageError());
-            }
-            _imageserver.GetTumbnail();
-            return StatusCode(200);
-        }
-
-        [HttpGet("thumbnail")]
-        [ProducesResponseType(typeof(NoImageError), 400)]
-        public ActionResult GetThumbnail()
-        {
-            if (_imageserver.EmptyImage())
-            {
-                return StatusCode(400, new NoImageError());
-            }
-            return File(_imageserver.GetTumbnail(), _imageserver.GetImageFormat());
-        }
+       
 
         [HttpPut("leftrotation")]
         [ProducesResponseType(typeof(NoImageError), 400)]
@@ -173,6 +137,46 @@ namespace MyImage.Controllers
             }
             _imageserver.RightRotation();
             return StatusCode(200);
+        }
+
+        [HttpPut("anglerotation")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(NoImageError), 400)]
+        public ActionResult RotateByAngle(int angle)
+        {
+            if (_imageserver.EmptyImage())
+            {
+                return StatusCode(400, new NoImageError());
+            }
+            if (angle != 0)
+            {
+                _imageserver.GetRotationByAngle(angle);
+            }
+
+            return StatusCode(200);
+        }
+
+        [HttpPut("thumbnail")]
+        [ProducesResponseType(typeof(NoImageError), 400)]
+        public ActionResult Thumbnail()
+        {
+            if (_imageserver.EmptyImage())
+            {
+                return StatusCode(400, new NoImageError());
+            }
+            _imageserver.GetTumbnail();
+            return StatusCode(200);
+        }
+
+        [HttpGet("thumbnail")]
+        [ProducesResponseType(typeof(NoImageError), 400)]
+        public ActionResult GetThumbnail()
+        {
+            if (_imageserver.EmptyImage())
+            {
+                return StatusCode(400, new NoImageError());
+            }
+            return File(_imageserver.GetTumbnail(), _imageserver.GetImageFormat());
         }
 
     }
