@@ -47,6 +47,8 @@ namespace MyImage.Service
         private static ImageFormat _format;
         private static int OriginalWidth;
         private static int OriginalHeight;
+        private static bool IsThumbnail;
+        private static Image thumb;
         private IMyImage processor = new MyImageType();
         #endregion OriginalImageProperties
 
@@ -67,11 +69,13 @@ namespace MyImage.Service
             {
                 return false;
             }
+            
             MemoryStream ms = new MemoryStream(bytes);
             _myimage = Image.FromStream(ms);
             _format = _myimage.RawFormat;
             OriginalHeight = _myimage.Height;
             OriginalWidth = _myimage.Width;
+            IsThumbnail = false;
             //processor.Initialize(_myimage);
             return true;
         }
@@ -117,9 +121,17 @@ namespace MyImage.Service
             return ImageToByteArray();
         }
 
+        public bool generateThumb()
+        {
+            thumb = processor.Thumbnail(_myimage);
+            IsThumbnail = true;
+            return true;
+        }
+
+
         public byte[] GetTumbnail()
         {
-            Image thumb = processor.Thumbnail(_myimage);
+            //thumb = processor.Thumbnail(_myimage);
             MemoryStream ms2 = new MemoryStream();
             ImageFormat format = processor.GetImageFormat(thumb);
             thumb.Save(ms2, _format);
@@ -142,6 +154,11 @@ namespace MyImage.Service
         {
             string format = "image/" + _format.ToString();
             return format;
+        }
+
+        public bool HasThumbNail()
+        {
+            return IsThumbnail;
         }
 
         public bool EmptyImage()
