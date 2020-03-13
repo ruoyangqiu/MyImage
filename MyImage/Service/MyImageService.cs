@@ -59,19 +59,18 @@ namespace MyImage.Service
         /// <returns></returns>
         public bool InitializeImage(string url)
         {
-            _myImageUrl = url;
             WebClient wc = new WebClient();
             byte[] bytes;
             try
             {
-                 bytes= wc.DownloadData(_myImageUrl);
+                 bytes= wc.DownloadData(url);
             } catch(Exception)
             {
                 return false;
             }
-            
             MemoryStream ms = new MemoryStream(bytes);
             _myimage = Image.FromStream(ms);
+            _myImageUrl = url;
             _format = _myimage.RawFormat;
             OriginalHeight = _myimage.Height;
             OriginalWidth = _myimage.Width;
@@ -163,7 +162,7 @@ namespace MyImage.Service
 
         public bool EmptyImage()
         {
-            return string.IsNullOrEmpty(_myImageUrl);
+            return _myimage == null;
         }
 
         // Convert Image to a byte array for display
