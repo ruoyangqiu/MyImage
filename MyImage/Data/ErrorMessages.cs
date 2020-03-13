@@ -48,5 +48,12 @@ namespace MyImage.Data
 
             public string Message { get => "The Parameter is empty!"; }
         }
+
+        public class NoThumbnailError
+        {
+            public int ErrorCode { get => 107; }
+
+            public string Message { get => "You need to generate a thumbnail first!"; }
+        }
     }
 }

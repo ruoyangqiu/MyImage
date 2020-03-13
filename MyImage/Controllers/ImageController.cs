@@ -15,6 +15,7 @@ namespace MyImage.Controllers
 
         private readonly ILogger<ImageController> _logger;
 
+
         public ImageController(ILogger<ImageController> logger)
         {
             _logger = logger;
@@ -207,7 +208,7 @@ namespace MyImage.Controllers
             {
                 return StatusCode(400, new NoImageError());
             }
-            _imageserver.GetTumbnail();
+            _imageserver.generateThumb();
             return StatusCode(200);
         }
 
@@ -217,11 +218,16 @@ namespace MyImage.Controllers
         /// <returns></returns>
         [HttpGet("thumbnail")]
         [ProducesResponseType(typeof(NoImageError), 400)]
+        [ProducesResponseType(typeof(NoThumbnailError), 400)]
         public ActionResult GetThumbnail()
         {
             if (_imageserver.EmptyImage())
             {
                 return StatusCode(400, new NoImageError());
+            }
+            if(!_imageserver.HasThumbNail())
+            {
+                return StatusCode(400, new NoThumbnailError());
             }
             return File(_imageserver.GetTumbnail(), _imageserver.GetImageFormat());
         }
