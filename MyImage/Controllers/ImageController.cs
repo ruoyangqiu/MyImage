@@ -182,12 +182,13 @@ namespace MyImage.Controllers
         [HttpPut("anglerotation")]
         [ProducesResponseType(200)]
         [ProducesResponseType(typeof(NoImageError), 400)]
-        public ActionResult RotateByAngle(int angle)
+        public ActionResult RotateByAngle(float angle)
         {
             if (_imageserver.EmptyImage())
             {
                 return StatusCode(400, new NoImageError());
             }
+            
             if (angle != 0)
             {
                 _imageserver.GetRotationByAngle(angle);

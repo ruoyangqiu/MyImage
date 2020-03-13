@@ -88,7 +88,7 @@ namespace MyImage.Service
             return ImageToByteArray();
         }
 
-        public byte[] GetRotationByAngle(int angle)
+        public byte[] GetRotationByAngle(float angle)
         {
             _myimage = processor.AngleRotation(_myimage, angle, OriginalWidth, OriginalHeight);
             return ImageToByteArray();

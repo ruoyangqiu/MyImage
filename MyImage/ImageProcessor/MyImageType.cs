@@ -10,10 +10,10 @@ namespace MyImage.ImageProcessor
     {
         
 
-        public Image AngleRotation(Image img, int angle, int width, int height)
+        public Image AngleRotation(Image img, float angle, int width, int height)
         {
             Bitmap bmp = new Bitmap(img);
-            img = (Image)RotateImage(bmp, (float)angle, width, height);
+            img = (Image)RotateImage(bmp, angle, width, height);
             return img;
         }
 

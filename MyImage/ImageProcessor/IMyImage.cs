@@ -11,7 +11,7 @@ namespace MyImage.ImageProcessor
     {
         //Image Initialize(Image img);
 
-        Image AngleRotation(Image img, int angle, int width, int height);
+        Image AngleRotation(Image img, float angle, int width, int height);
 
         Image LeftRotation(Image img);
 
