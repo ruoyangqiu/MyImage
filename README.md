@@ -67,7 +67,7 @@ Using Http Call
         *	400 if any input width is negative or zero. It will also respond an InvalidWidthError
         *	400 if any input Height is negative or zero. It will also respond an InvalidHeightError
 
-*	####Left Rotation(PUT)
+*	Left Rotation(PUT)
     *	Rotation the image 90 degree counterclockwise
     *	Code:
         *	  curl -X PUT "https://localhost:44375/Image/leftrotation" -H "accept: */*"
