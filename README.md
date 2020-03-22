@@ -39,7 +39,7 @@ Using Http Call
         *	200 for Success and display the image
         *	400 if user hasn’t uploaded an image yet. It will also response a NoImageError
 
-*	####Flip Image(PUT)
+*	Flip Image(PUT)
     *	It will flip the image either vertical or horizontal. User needs to input horizontal or vertical to provide an orientation to flip.
     *	Code:
         *	  curl -X PUT "https://localhost:44375/Image/flipping?orientation=Horizontal" -H "accept: */*"
